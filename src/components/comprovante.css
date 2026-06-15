@@ -1,0 +1,58 @@
+.comprovante {
+  font-family: Arial, sans-serif;
+  color: #000;
+  padding: 20px;
+}
+
+.topo {
+  text-align: center;
+  line-height: 1.4;
+}
+
+.titulo {
+  text-align: center;
+  margin: 20px 0;
+  font-size: 18px;
+}
+
+.valor {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.texto {
+  margin-bottom: 15px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 15px;
+}
+
+table th,
+table td {
+  border: 1px solid #000;
+  padding: 6px;
+  font-size: 14px;
+}
+
+.total {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.data {
+  margin-top: 30px;
+}
+
+.assinatura {
+  margin-top: 50px;
+  text-align: center;
+}
+
+@media print {
+  body {
+    background: #fff;
+  }
+}
