@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "@/services/api";
 import OrdensForm from "@/components/ordens/OrdensForm";
-import Recibo from "../components/Recibo/Recibo";
+import Recibo from "../components/recibo/Recibo";
 import ComprovanteTermico from "@/components/ComprovanteTermico";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
