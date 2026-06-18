@@ -5,9 +5,7 @@ import {
   FaClipboardList,
   FaMoneyBillWave,
   FaFileInvoice,
-  FaRegCreditCard,
-  FaRegMoneyBillAlt
-} from "react-icons/fa";
+  } from "react-icons/fa";
 
 export default function Home() {
   const modules = [
@@ -41,18 +39,7 @@ export default function Home() {
       link: "/relatorios",
       color: "bg-red-600 hover:bg-red-700",
     },
-    {
-      name: "Contas a Pagar",
-      icon: <FaRegCreditCard size={28} />,
-      link: "/contas-pagar",
-      color: "bg-pink-500 hover:bg-pink-600",
-    },
-    {
-      name: "Contas a Receber",
-      icon: <FaRegMoneyBillAlt size={28} />,
-      link: "/contas-receber",
-      color: "bg-teal-500 hover:bg-teal-600",
-    },
+    
     {
       name: "Usuários",
       icon: <FaUsers size={28} />,
