@@ -27,6 +27,7 @@ export default function Financeiro() {
 
   const [form, setForm] = useState({
     tipo: "entrada",
+    categoria: "",
     descricao: "",
     valor: "",
     data: safeDate(),
@@ -81,7 +82,7 @@ export default function Financeiro() {
   ========================== */
   const abrirNovo = () => {
     setEditando(null);
-    setForm({ tipo: "entrada", descricao: "", valor: "", data: safeDate() });
+    setForm({ tipo: "entrada", descricao: "", categoria: "", valor: "", data: safeDate() });
     setModalOpen(true);
   };
 
@@ -89,6 +90,7 @@ export default function Financeiro() {
     setEditando(item);
     setForm({
       tipo: item.tipo,
+      categoria: item.categoria || "",
       descricao: item.descricao || "",
       valor: safeNum(item.valor),
       data: safeDate(item.data),
@@ -193,6 +195,7 @@ export default function Financeiro() {
         <thead className="bg-gray-200">
           <tr>
             <th className="border px-3 py-2">Tipo</th>
+            <th className="border px-3 py-2">Categoria</th>
             <th className="border px-3 py-2">Descrição</th>
             <th className="border px-3 py-2">Valor</th>
             <th className="border px-3 py-2">Data</th>
@@ -224,7 +227,7 @@ export default function Financeiro() {
           ))}
           {lista.length === 0 && (
             <tr>
-              <td colSpan={5} className="text-center py-3 text-gray-500">
+              <td colSpan={6} className="text-center py-3 text-gray-500">
                 Nenhum registro encontrado
               </td>
             </tr>
@@ -238,48 +241,96 @@ export default function Financeiro() {
           <div className="bg-white p-6 rounded-xl w-full max-w-md space-y-4">
             <h2 className="text-xl font-bold">{editando ? "Editar Movimento" : "Novo Movimento"}</h2>
 
-            <select
+             <select
               value={form.tipo}
               onChange={(e) => setForm({ ...form, tipo: e.target.value })}
               className="border p-2 rounded w-full"
-            >
-              <option value="entrada">Entrada</option>
-              <option value="saida">Saída</option>
-            </select>
+              
+              >
+               {/* Tipo */}
+              <select
+               value={form.tipo}
+               onChange={(e) =>
+               setForm({
+               ...form,
+               tipo: e.target.value,
+               categoria: "", // limpa categoria ao trocar tipo
+               })
+               }
+                className="border p-2 rounded w-full"
+               >
+                <option value="entrada">Entrada</option>
+                <option value="saida">Saída</option>
+               </select>
 
-            <input
-              placeholder="Descrição"
-              className="border p-2 rounded w-full"
-              value={form.descricao}
-              onChange={(e) => setForm({ ...form, descricao: e.target.value })}
-            />
+               {/* Categoria*/}
+               <select
+               value={form.categoria}
+               onChange={(e) =>
+               setForm({ ...form, categoria: e.target.value })
+               }
+               className="border p-2 rounded w-full"
+               > 
+               <option value="">Selecione a categoria</option>
 
-            <input
-              type="number"
-              placeholder="Valor"
-              className="border p-2 rounded w-full"
-              value={form.valor}
-              onChange={(e) => setForm({ ...form, valor: e.target.value })}
-            />
+               {form.tipo === "entrada" ? (
+               <>
+               <option value="Receita OS">Receita OS</option>
+               <option value="Venda Produto">Venda Produto</option>
+               <option value="Recebimento Cliente">Recebimento Cliente</option>
+               <option value="Outras Receitas">Outras Receitas</option>
+               </>
+               ) : (
+               <>
+               <option value="Compra de Peças">Compra de Peças</option>
+               <option value="Ferramentas">Ferramentas</option>
+               <option value="Internet">Internet</option>
+               <option value="Energia">Energia</option>
+               <option value="Aluguel">Aluguel</option>
+               <option value="Combustível">Combustível</option>
+               <option value="Impostos">Impostos</option>
+               <option value="Retirada Pessoal">Retirada Pessoal</option>
+               <option value="Outros">Outros</option>
+               </>
+               )}
+               </select>
+               <option value="entrada">Entrada</option>
+               <option value="saida">Saída</option>
+               </select>
 
-            <input
-              type="date"
-              className="border p-2 rounded w-full"
-              value={form.data}
-              onChange={(e) => setForm({ ...form, data: e.target.value })}
-            />
+               <input
+               placeholder="Descrição"
+               className="border p-2 rounded w-full"
+               value={form.descricao}
+               onChange={(e) => setForm({ ...form, descricao: e.target.value })}
+               />
 
-            <div className="flex justify-between">
-              <button
+               <input
+               type="number"
+               placeholder="Valor"
+               className="border p-2 rounded w-full"
+               value={form.valor}
+               onChange={(e) => setForm({ ...form, valor: e.target.value })}
+               />
+
+               <input
+               type="date"
+               className="border p-2 rounded w-full"
+               value={form.data}
+               onChange={(e) => setForm({ ...form, data: e.target.value })}
+               />
+
+               <div className="flex justify-between">
+               <button
                 onClick={fecharModal}
                 className="bg-gray-600 text-white px-4 py-2 rounded"
-              >
+               >
                 Cancelar
-              </button>
-              <button
+               </button>
+               <button
                 onClick={salvar}
                 className="bg-green-600 text-white px-4 py-2 rounded"
-              >
+               >
                 Salvar
               </button>
             </div>
