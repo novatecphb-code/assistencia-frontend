@@ -85,62 +85,115 @@ export default function Financeiro() {
   /* =========================
      MODAL
   ========================== */
-  const abrirNovo = () => {
-    setEditando(null);
-    setForm({
-      tipo: "entrada",
-      categoria: "",
-      descricao: "",
-      valor: "",
-      data: safeDate(),
-    });
-    setModalOpen(true);
-  };
+  {modalOpen && (
+  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
-  const abrirEditar = (item) => {
-    setEditando(item);
+    <div className="bg-white w-full max-w-md rounded-xl shadow-lg relative p-6">
 
-    setForm({
-      tipo: item.tipo || "entrada",
-      categoria: item.categoria || "",
-      descricao: item.descricao || "",
-      valor: item.valor || "",
-      data: safeDate(item.data),
-    });
+      {/* BOTÃO FECHAR (X) */}
+      <button
+        onClick={fecharModal}
+        className="absolute top-3 right-3 text-gray-500 hover:text-red-600 text-xl font-bold"
+      >
+        ×
+      </button>
 
-    setModalOpen(true);
-  };
+      {/* TÍTULO */}
+      <h2 className="text-xl font-bold mb-4">
+        {editando ? "Editar Movimento" : "Novo Movimento"}
+      </h2>
 
-  const fecharModal = () => {
-    setEditando(null);
-    setModalOpen(false);
-  };
+      {/* TIPO */}
+      <select
+        value={form.tipo}
+        onChange={(e) =>
+          setForm({ ...form, tipo: e.target.value, categoria: "" })
+        }
+        className="border p-2 w-full rounded mb-2"
+      >
+        <option value="entrada">Entrada</option>
+        <option value="saida">Saída</option>
+      </select>
 
-  /* =========================
-     SALVAR
-  ========================== */
-  const salvar = async () => {
-    try {
-      const payload = {
-        ...form,
-        valor: safeNum(form.valor),
-        data: safeDate(form.data),
-      };
+      {/* CATEGORIA */}
+      <select
+        value={form.categoria}
+        onChange={(e) =>
+          setForm({ ...form, categoria: e.target.value })
+        }
+        className="border p-2 w-full rounded mb-2"
+      >
+        <option value="">Selecione a categoria</option>
 
-      if (editando) {
-        await api.put(`/financeiro/${editando.id}`, payload);
-      } else {
-        await api.post("/financeiro", payload);
-      }
+        {form.tipo === "entrada" ? (
+          <>
+            <option value="Receita OS">Receita OS</option>
+            <option value="Venda Produto">Venda Produto</option>
+            <option value="Recebimento Cliente">Recebimento Cliente</option>
+            <option value="Outras Receitas">Outras Receitas</option>
+          </>
+        ) : (
+          <>
+            <option value="Compra de Peças">Compra de Peças</option>
+            <option value="Ferramentas">Ferramentas</option>
+            <option value="Combustível">Combustível</option>
+            <option value="Aluguel">Aluguel</option>
+            <option value="Outros">Outros</option>
+          </>
+        )}
+      </select>
 
-      carregar();
-      carregarResumo();
-      fecharModal();
-    } catch (err) {
-      console.error("Erro ao salvar:", err);
-      alert("Erro ao salvar movimento");
-    }
-  };
+      {/* DESCRIÇÃO */}
+      <input
+        placeholder="Descrição"
+        value={form.descricao}
+        onChange={(e) =>
+          setForm({ ...form, descricao: e.target.value })
+        }
+        className="border p-2 w-full rounded mb-2"
+      />
+
+      {/* VALOR */}
+      <input
+        type="number"
+        placeholder="Valor"
+        value={form.valor}
+        onChange={(e) =>
+          setForm({ ...form, valor: e.target.value })
+        }
+        className="border p-2 w-full rounded mb-2"
+      />
+
+      {/* DATA */}
+      <input
+        type="date"
+        value={form.data}
+        onChange={(e) =>
+          setForm({ ...form, data: e.target.value })
+        }
+        className="border p-2 w-full rounded mb-4"
+      />
+
+      {/* BOTÕES */}
+      <div className="flex justify-between">
+        <button
+          onClick={fecharModal}
+          className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded"
+        >
+          Cancelar
+        </button>
+
+        <button
+          onClick={salvar}
+          className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded"
+        >
+          Salvar
+        </button>
+      </div>
+
+    </div>
+  </div>
+)}
 
   /* =========================
      EXCLUIR
